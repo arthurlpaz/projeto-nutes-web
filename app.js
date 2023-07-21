@@ -1,4 +1,5 @@
 const Express = require('express');
+const athleteRoute = require('./routes/AthleteRoutes');
 
 const server = new Express(); //Objeto do server
 
@@ -16,6 +17,8 @@ server.use((req, res, next) => {
 })
 
 //Rotas para usar aqui em baixo
+
+server.use('/api/v1/athletes', athleteRoute);
 
 
 module.exports = server;
