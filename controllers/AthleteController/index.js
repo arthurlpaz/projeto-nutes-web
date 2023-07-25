@@ -5,52 +5,95 @@ const createAthlete = async (req, res) => {
 
     try {
         const newAthlete = await Athlete.create(bodyData); //Cria atleta usando o model
-        return res.status(200).json(newUser);
+
+        newAthlete.save();
+
+        return res.status(200).json({
+            status: 'Sucsess',
+            reqTime: req.requestTime,
+            message: 'Athlete created!'
+        });
     } catch (err) {
-        return res.status(400).json(err);
+        return res.status(404).json({
+            status: 'Error',
+            reqTime: req.requestTime,
+            message: err.message
+        });
     }
 }
 
 const getAthletes = async (req, res) => {
     try {
-        const athletes = Athlete.find();
-        return res.status(200).json(athletes);
+        const athletes = await Athlete.find(req.query);
+        return res.status(200).json({
+            status: 'Success',
+            req_time: req.requestTime,
+            results: athletes.length,
+            athletes
+        });
     } catch (err) {
-        return res.status(400).json(err);
+        return res.status(404).json({
+            status: 'Error',
+            reqTime: req.requestTime,
+            message: err.message
+        });
     }
 }
 
 const getAthleteById = async (req, res) => {
-    const { athlete_id } = req.params;
-
+    const athleteId = req.params.id
     try {
-        const athlete = Athlete.findById(athlete_id);
-        return res.status(200).json(athlete);
+        const athlete = await Athlete.findById(athleteId);
+        return res.status(200).json({
+            status: 'Success',
+            reqTime: req.requestTime,
+            athlete
+        });
     } catch (err) {
-        return res.status(400).json(err);
+        return res.status(404).json({
+            status: 'Error',
+            reqTime: req.requestTime,
+            message: err.message
+        });
     }
 }
 
 const updateAthlete = async (req, res) => {
     const bodyData = req.body;
-    const { athlete_id } = req.params;
+    const athleteId = req.params.id;
 
     try {
-        const updatedAthlete = Athlete.findByIdAndUpdate(athlete_id, bodyData, { new: true });
-        return res.status(200).json(updatedAthlete);
+        const updatedAthlete = await Athlete.findByIdAndUpdate(athleteId, bodyData, { new: true, runValidators: true });
+        return res.status(200).json({
+            status: 'Success',
+            reqTime: req.requestTime,
+            updatedAthlete
+        });
     } catch (err) {
-        return res.status(400).json(err);
+        return res.status(400).json({
+            status: 'Error',
+            reqTime: req.requestTime,
+            message: err.message
+        });
     }
 }
 
 const deleteAthlete = async (req, res) => {
-    const { athlete_id } = req.params;
+    const athleteId = req.params.id;
 
     try {
-        const deletedAthlete = Athlete.findByIdAndDelete(athlete_id);
-        return res.status(200).json(deletedAthlete);
+        const deletedAthlete = await Athlete.findByIdAndDelete(athleteId);
+        return res.status(200).json({
+            status: 'Success',
+            reqTime: req.requestTime,
+            deletedAthlete
+        });
     } catch (err) {
-        return res.status(400).json(err);
+        return res.status(400).json({
+            status: 'Error',
+            reqTime: req.requestTime,
+            message: err.message
+        });
     }
 }
 
