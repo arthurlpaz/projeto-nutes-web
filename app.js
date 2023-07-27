@@ -1,5 +1,7 @@
 const Express = require('express');
 const athleteRoute = require('./routes/AthleteRoutes');
+const loginRoute = require('./routes/LoginRoutes');
+const registerRoute = require('./routes/RegisterRoutes')
 
 const server = new Express(); //Objeto do server
 
@@ -9,7 +11,9 @@ if (process.env.NODE_ENV === 'devlopment') {
     server.use(require('morgan')('dev')); //Utilizar morgan para feedback do server
 }
 
-server.use(Express.json());
+server.use(Express.json()); //Para o server entender json
+
+
 
 server.use((req, res, next) => {
     req.requestTime = new Date().toISOString(); //Para pegar a hora em que uma requisição foi feita
@@ -19,6 +23,8 @@ server.use((req, res, next) => {
 //Rotas para usar aqui em baixo
 
 server.use('/api/v1/athletes', athleteRoute);
-
+server.use('/api/v1/auth', loginRoute);
+server.use('/api/v1/auth', registerRoute);
+server.use('/api/v1/user', loginRoute);
 
 module.exports = server;
