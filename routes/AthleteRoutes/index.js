@@ -3,7 +3,7 @@ const Express = require('express');
 //-----------------Roteador-----------------
 const athleteRoute = Express.Router();
 
-//-------------Funções para Tours------------------
+//-------------Funções para Atleta------------------
 const { createAthlete,
     getAthletes,
     getAthleteById,
@@ -18,6 +18,6 @@ athleteRoute.route('/')
 athleteRoute.route('/:id')
     .get(getAthleteById) //Pegar por id
     .patch(updateAthlete) //Atualizar por id
-    .delete(deleteAthlete) //Apagar por id
+    .delete(deleteAthlete); //Apagar por id
 
 module.exports = athleteRoute;
