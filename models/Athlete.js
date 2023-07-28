@@ -5,9 +5,13 @@ const Schema = new mongoose.Schema({
         type: String,
         required: [true, "Nome do atleta não definido!"]
     },
+    password: {
+        type: String,
+        required: [true, "Senha não definida!"]
+    },
     age: {
         type: Number,
-        required: [true, "Idade do atleta não definida!"]
+        default: ""
     },
     height: {
         type: Number,
@@ -24,22 +28,24 @@ const Schema = new mongoose.Schema({
     address: {
         street: {
             type: String,
-            required: [true, "Nome da rua não definido!"]
+            default: ""
         },
         number: {
             type: String,
-            required: [true, "Número do endereço não definido!"]
+            default: ""
         },
         city: {
             type: String,
-            required: [true, "Nome da cidade não definido!"]
+            default: ""
         }
     },
     contact_emergency: {
-        type: Number
+        type: String,
+        default: ""
     },
     contact_personal: {
-        type: Number
+        type: String,
+        default: ""
     }
 })
 
