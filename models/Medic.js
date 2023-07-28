@@ -5,9 +5,13 @@ const Schema = new mongoose.Schema({
         type: String,
         required: [true, "Nome do médico não definido!"]
     },
+    password: {
+        type: String,
+        required: [true, "Senha não definida!"]
+    },
     date_birthday: {
         type: String,
-        required: [true, "Data de nascimento do médico não definida!"]
+        default: ""
     },
     email: {
         type: String,
@@ -16,26 +20,28 @@ const Schema = new mongoose.Schema({
     address: {
         street: {
             type: String,
-            required: [true, "Nome da rua não definido!"]
+            default: ""
         },
         number: {
             type: String,
-            required: [true, "Número do endereço não definido!"]
+            default: ""
         },
         city: {
             type: String,
-            required: [true, "Nome da cidade não definido!"]
+            default: ""
         }
     },
     contact_emergency: {
-        type: Number
+        type: String,
+        default: ""
     },
     contact_personal: {
-        type: Number
+        type: String,
+        default: ""
     },
     speciality: {
         type: String,
-        required: [true, "Especialidade do médico não definida!"]
+        default: ""
     }
 })
 
