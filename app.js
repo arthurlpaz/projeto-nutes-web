@@ -29,7 +29,7 @@ server.use('/api/v1/auth', loginRoute);
 server.use('/api/v1/auth', registerRoute);
 server.use('/api/v1/user', loginRoute);
 server.use('/api/v1/trainers', trainerRoute);
-server.use('/api/v1/medic',medicRoute);
+server.use('/api/v1/medics',medicRoute);
 
 
 module.exports = server;

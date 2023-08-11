@@ -8,8 +8,8 @@ const createAthlete = async (req, res) => {
 
         newAthlete.save();
 
-        return res.status(200).json({
-            status: 'Sucsess',
+        return res.status(201).json({
+            status: 'Sucess',
             reqTime: req.requestTime,
             message: 'Athlete created!'
         });
