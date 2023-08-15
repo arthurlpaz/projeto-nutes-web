@@ -32,3 +32,5 @@ const Schema = new mongoose.Schema({
         default: [""]
     }]
 })
+
+module.exports = mongoose.model("MedicalRegister", Schema);

@@ -4,6 +4,7 @@ const loginRoute = require('./routes/LoginRoutes');
 const registerRoute = require('./routes/RegisterRoutes');
 const trainerRoute = require('./routes/TrainerRoutes');
 const medicRoute = require('./routes/MedicRoutes');
+const medicalRegisterRoute = require('./routes/MedicalRegisterRoutes');
 
 const server = new Express(); //Objeto do server
 
@@ -30,6 +31,6 @@ server.use('/api/v1/auth', registerRoute);
 server.use('/api/v1/user', loginRoute);
 server.use('/api/v1/trainers', trainerRoute);
 server.use('/api/v1/medics',medicRoute);
-
+server.use('/api/v1/medicalRegisters', medicalRegisterRoute)
 
 module.exports = server;
