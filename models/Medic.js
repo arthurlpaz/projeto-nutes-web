@@ -10,8 +10,8 @@ const Schema = new mongoose.Schema({
         required: [true, "Senha não definida!"]
     },
     date_birthday: {
-        type: String,
-        default: ""
+        type: Date,
+        required: [true, "Data de nascimento não definida!"]
     },
     email: {
         type: String,
@@ -37,12 +37,16 @@ const Schema = new mongoose.Schema({
     },
     contact_personal: {
         type: String,
-        default: ""
+        required: [true, "Contato pessoal não definido!"]
     },
     speciality: {
         type: String,
-        default: ""
+        default: "Sem especialidade"
+    },
+    avaliable: {
+        type: Boolean,
+        default: true
     }
-})
+}, { timestamps: true })
 
 module.exports = mongoose.model("Medic", Schema);
