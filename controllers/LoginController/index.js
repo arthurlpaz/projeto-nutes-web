@@ -9,11 +9,11 @@ const login = async (req, res) => {
 
     //Validações
     if (!email) {
-        res.status(422).json({ message: 'O e-mail é obrigatório!' });
+        res.status(422).json({ message: 'Há informações faltantes!' });
     }
 
     if (!password) {
-        res.status(422).json({ message: 'A senha é obrigatória!' });
+        res.status(422).json({ message: 'Há informações faltantes!' });
     }
 
     //Checar se usuário existe

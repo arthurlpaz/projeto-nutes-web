@@ -5,25 +5,25 @@ const Schema = new mongoose.Schema({
         type: String,
         required: [true, "Nome do atleta não definido!"]
     },
-    password: {
-        type: String,
-        required: [true, "Senha não definida!"]
-    },
     age: {
         type: Number,
-        default: ""
+        required: [true, "Idade do atleta não definida!"]
+    },
+    gender: {
+        type: String,
+        required: [true, "Gênero do atleta não definido!"]
     },
     height: {
         type: Number,
-        default: 0.0
+        required: [true, "Altura do atleta não definida!"]
     },
     weight: {
         type: Number,
-        default: 0.0
+        required: [true, "Peso do atleta não definido!"]
     },
     email: {
         type: String,
-        required: [true, "E-mail do atleta não definido!"]
+        default: ""
     },
     address: {
         street: {
@@ -46,7 +46,12 @@ const Schema = new mongoose.Schema({
     contact_personal: {
         type: String,
         default: ""
+    },
+    injured: {
+        type: Boolean,
+        default: false
     }
-})
+}, { timestamps: true }
+)
 
 module.exports = mongoose.model("Athlete", Schema);

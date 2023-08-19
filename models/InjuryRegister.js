@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = new mongoose.Schema({
     date: { 
-        type: String,
+        type: Date,
         required: [true,"Data do registro não definida"]
     },
     medic: {
@@ -22,25 +22,24 @@ const Schema = new mongoose.Schema({
     },
     prescribedTreatments: [{ // Matriz que contém os tratamentos prescritos
         type: String,
-        required: [true, "Tratamentos prescritos não definidos"]
+        default: ""
     }],
     estimatedRecoveryDate: { // Armazena a data estimada de recuperação
-        type: Date,
-        required: [true, "Data estimada de recuperação não definida"]
-
+        type: String,
+        default: ""
     },
     rehabRecommendations: [{ // Matriz que contém recomendações de recuperação
         type: String,
         default: [""]
     }],
-    progressUpdates : [{ // Matriz que armazena atualizações de progesso com data e descrição
+    progressUpdates : [{ // Matriz que armazena atualizações de progresso com data e descrição
         date: {
             type: Date,
-            required: [true, "Data da atualização não definida"]
+            default: ""
         },
         description: {
             type: String,
-            required: [true,"Descrição da atualização não definida"]
+            default: ""
         }
     }]
 

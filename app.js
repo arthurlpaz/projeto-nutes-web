@@ -1,4 +1,5 @@
 const Express = require('express');
+const morgan = require('morgan');
 const athleteRoute = require('./routes/AthleteRoutes');
 const loginRoute = require('./routes/LoginRoutes');
 const registerRoute = require('./routes/RegisterRoutes');
@@ -15,7 +16,7 @@ if (process.env.NODE_ENV === 'devlopment') {
 
 server.use(Express.json()); //Para o server entender json
 
-
+server.use(morgan("combined"));
 
 server.use((req, res, next) => {
     req.requestTime = new Date().toISOString(); //Para pegar a hora em que uma requisição foi feita

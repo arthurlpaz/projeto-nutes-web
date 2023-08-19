@@ -18,6 +18,10 @@ const Schema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Athlete',
         required: [true, "Atleta do agendamento não definido"]
+    },
+    resolved: {
+        type: Boolean,
+        default: false
     }
 });
 
