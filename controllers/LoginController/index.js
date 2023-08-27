@@ -35,6 +35,7 @@ const login = async (req, res) => {
         //Logar JWT
         if (medic) {
             const token = jwt.sign({ id: medic._id }, secret);
+            req.session.userId = medic._id;
             return res.status(200).json({
                 status: 'Success',
                 reqTime: req.requestTime,
@@ -54,10 +55,15 @@ const login = async (req, res) => {
 
 //Retornar informações do usuário após o login
 const me = async (req, res) => {
-    const id = req.params.id;
+    const id = req.session.userId;
+
+    if (!id) {
+        return res.status(401).json({ message: 'Usuário não autenticado.' });
+    }
+
     const medic = await Medic.findById(id, '-password');  //(-password) serve para não enviar a senha
-    
-    //Checar se usuário existe e qual tipo é
+
+    //Checar se usuário existe
     if (medic) {
         return res.status(200).json({ medic });
     }

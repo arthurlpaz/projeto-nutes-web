@@ -24,7 +24,7 @@ const createMedic = async (req, res) => {
 
 const getMedics = async (req, res) => {
     try {
-        const medics = await Medic.find(req.query);
+        const medics = await Medic.find(req.query).select('-password');
         return res.status(200).json({
             status: 'Success',
             req_time: req.requestTime,
@@ -43,7 +43,7 @@ const getMedics = async (req, res) => {
 const getMedicById = async (req, res) => {
     const medicId = req.params.id
     try {
-        const medic = await Medic.findById(medicId);
+        const medic = await Medic.findById(medicId).select('-password');
         return res.status(200).json({
             status: 'Success',
             reqTime: req.requestTime,
