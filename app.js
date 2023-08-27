@@ -1,10 +1,11 @@
 const Express = require('express');
-const morgan = require('morgan');
+const session = require('express-session');
 const athleteRoute = require('./routes/AthleteRoutes');
 const loginRoute = require('./routes/LoginRoutes');
 const registerRoute = require('./routes/RegisterRoutes');
 const medicRoute = require('./routes/MedicRoutes');
 const medicalRegisterRoute = require('./routes/MedicalRegisterRoutes');
+require('dotenv').config(); //Iniciar configuração do .env
 
 const server = new Express(); //Objeto do server
 
@@ -16,7 +17,12 @@ if (process.env.NODE_ENV === 'devlopment') {
 
 server.use(Express.json()); //Para o server entender json
 
-server.use(morgan("combined"));
+server.use(session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: true,
+}));
+
 
 server.use((req, res, next) => {
     req.requestTime = new Date().toISOString(); //Para pegar a hora em que uma requisição foi feita

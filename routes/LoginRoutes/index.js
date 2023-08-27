@@ -10,7 +10,7 @@ loginRoute.route('/login')
     .post(login);
 
 //Rota privada
-loginRoute.route('/:id')
+loginRoute.route('/me')
     .get(checkToken, me);
 
 module.exports = loginRoute;
