@@ -8,7 +8,7 @@ const createMedic = async (req, res) => {
 
         newMedic.save();
 
-        return res.status(200).json({
+        return res.status(201).json({
             status: 'Sucsess',
             reqTime: req.requestTime,
             message: 'Medic created!'
