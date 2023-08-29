@@ -1,5 +1,6 @@
 const Express = require('express');
 const session = require('express-session');
+const cors = require('cors');
 const athleteRoute = require('./routes/AthleteRoutes');
 const loginRoute = require('./routes/LoginRoutes');
 const registerRoute = require('./routes/RegisterRoutes');
@@ -10,19 +11,23 @@ require('dotenv').config(); //Iniciar configuração do .env
 const server = new Express(); //Objeto do server
 
 //---------------Middlewares-------------
+server.use(Express.json()); //Para o server entender json
 
-if (process.env.NODE_ENV === 'devlopment') {
+if (process.env.NODE_ENV === 'development') {
     server.use(require('morgan')('dev')); //Utilizar morgan para feedback do server
 }
 
-server.use(Express.json()); //Para o server entender json
+server.use(cors({
+    origin: "*", // Isso permite qualquer origem (NÃO recomendado para produção)
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true, // Se você estiver usando cookies ou autenticação, defina isso como true
+ }));
 
 server.use(session({
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
 }));
-
 
 server.use((req, res, next) => {
     req.requestTime = new Date().toISOString(); //Para pegar a hora em que uma requisição foi feita
