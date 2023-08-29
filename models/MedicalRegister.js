@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = new mongoose.Schema({
     date: {
-        type: String,
+        type: Date,
         required: [true, "Data do registro não definida"]
     },
     medic: {

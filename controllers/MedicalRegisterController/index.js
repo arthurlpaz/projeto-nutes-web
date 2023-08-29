@@ -24,7 +24,7 @@ const createMedicalRegister = async (req, res) => {
 
 const getMedicalRegisters = async (req, res) => {
     try {
-        const registers = await register.find(req.query);
+        const registers = await MedicalRegister.find(req.query);
         return res.status(200).json({
             status: 'Success',
             req_time: req.requestTime,
