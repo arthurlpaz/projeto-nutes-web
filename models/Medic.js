@@ -11,7 +11,7 @@ const Schema = new mongoose.Schema({
     },
     date_birthday: {
         type: Date,
-        required: [true, "Data de nascimento não definida!"]
+        default: ""
     },
     email: {
         type: String,
@@ -37,7 +37,7 @@ const Schema = new mongoose.Schema({
     },
     contact_personal: {
         type: String,
-        required: [true, "Contato pessoal não definido!"]
+        default: ""
     },
     speciality: {
         type: String,
