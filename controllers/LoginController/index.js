@@ -84,7 +84,7 @@ const checkToken = (req, res, next) => {
         jwt.verify(token, secret);
         next();
     } catch (err) {
-        return res.status(400).json({ message: 'Token inválido! ' });
+        return res.status(400).json({ message: 'Token inválido!' });
     }
 }
 
