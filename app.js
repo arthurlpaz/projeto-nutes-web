@@ -1,5 +1,5 @@
 const Express = require('express');
-const session = require('express-session');
+const session = require('cookie-session');
 const cors = require('cors');
 const athleteRoute = require('./routes/AthleteRoutes');
 const loginRoute = require('./routes/LoginRoutes');
@@ -13,21 +13,27 @@ const server = new Express(); //Objeto do server
 //---------------Middlewares-------------
 server.use(Express.json()); //Para o server entender json
 
+server.use(
+    session({
+        secret: process.env.SECRET,
+        secure: process.env.NODE_ENV === 'development' ? false : true,
+        httpOnly: process.env.NODE_ENV === 'development' ? false : true,
+        sameSite: process.env.NODE_ENV === 'development' ? false : 'none',
+    }),
+);
+
 if (process.env.NODE_ENV === 'development') {
     server.use(require('morgan')('dev')); //Utilizar morgan para feedback do server
 }
 
-server.use(cors({
-    origin: "*", // Isso permite qualquer origem (NÃO recomendado para produção)
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true, // Se você estiver usando cookies ou autenticação, defina isso como true
- }));
+server.enable('trust proxy');
 
-server.use(session({
-    secret: process.env.SECRET,
-    resave: false,
-    saveUninitialized: true,
-}));
+server.use(
+    cors({
+        credentials: true,
+        origin: 'https://localhost:5173',
+    }),
+);
 
 server.use((req, res, next) => {
     req.requestTime = new Date().toISOString(); //Para pegar a hora em que uma requisição foi feita
@@ -40,7 +46,7 @@ server.use('/api/v1/athletes', athleteRoute);
 server.use('/api/v1/auth', loginRoute);
 server.use('/api/v1/auth', registerRoute);
 server.use('/api/v1/user', loginRoute);
-server.use('/api/v1/medics',medicRoute);
+server.use('/api/v1/medics', medicRoute);
 server.use('/api/v1/medicalRegisters', medicalRegisterRoute)
 
 module.exports = server;
