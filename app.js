@@ -1,9 +1,8 @@
 const Express = require('express');
-const session = require('cookie-session');
+const helmet = require('helmet');
 const cors = require('cors');
 const athleteRoute = require('./routes/AthleteRoutes');
-const loginRoute = require('./routes/LoginRoutes');
-const registerRoute = require('./routes/RegisterRoutes');
+const authRoute = require('./routes/AuthRoutes');
 const medicRoute = require('./routes/MedicRoutes');
 const medicalRegisterRoute = require('./routes/MedicalRegisterRoutes');
 require('dotenv').config(); //Iniciar configuração do .env
@@ -13,21 +12,13 @@ const server = new Express(); //Objeto do server
 //---------------Middlewares-------------
 server.use(Express.json()); //Para o server entender json
 
-server.use(
-    session({
-        secret: process.env.SECRET,
-        secure: process.env.NODE_ENV === 'development' ? false : true,
-        httpOnly: process.env.NODE_ENV === 'development' ? false : true,
-        sameSite: process.env.NODE_ENV === 'development' ? false : 'none',
-    }),
-);
+server.use(helmet());   //Para medidas de segurança
 
 if (process.env.NODE_ENV === 'development') {
     server.use(require('morgan')('dev')); //Utilizar morgan para feedback do server
 }
 
-server.enable('trust proxy');
-
+//Permitir cors para o front
 server.use(
     cors({
         credentials: true,
@@ -40,12 +31,9 @@ server.use((req, res, next) => {
     next();
 })
 
-//Rotas para usar aqui em baixo
-
+//Rotas para serem usadas
 server.use('/api/v1/athletes', athleteRoute);
-server.use('/api/v1/auth', loginRoute);
-server.use('/api/v1/auth', registerRoute);
-server.use('/api/v1/user', loginRoute);
+server.use('/api/v1/auth', authRoute);
 server.use('/api/v1/medics', medicRoute);
 server.use('/api/v1/medicalRegisters', medicalRegisterRoute)
 

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const Schema = new mongoose.Schema({
     name: {
@@ -47,6 +48,13 @@ const Schema = new mongoose.Schema({
         type: Boolean,
         default: true
     }
-}, { timestamps: true })
+}, { timestamps: true });
+
+Schema.methods.correctPassword = async function (
+    candidatePassword,
+    userPassword
+  ) {
+    return await bcrypt.compare(candidatePassword, userPassword);
+};
 
 module.exports = mongoose.model("Medic", Schema);
