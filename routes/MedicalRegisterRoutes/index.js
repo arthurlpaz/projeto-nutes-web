@@ -14,7 +14,7 @@ medicalRegisterRoute.route('/')
     .get(getMedicalRegisters) //Pegar todos
     .post(createMedicalRegister);  //Adicionar um
 
-medicalRegisterRoute.route('/:id')
+medicalRegisterRoute.route('/:medicId/:athleteId')
     .get(getMedicalRegisterById) //Pegar por id
     .patch(updateMedicalRegister) //Atualizar por id
     .delete(deleteMedicalRegister); //Apagar por id

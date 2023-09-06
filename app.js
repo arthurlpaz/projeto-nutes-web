@@ -5,6 +5,7 @@ const athleteRoute = require('./routes/AthleteRoutes');
 const authRoute = require('./routes/AuthRoutes');
 const medicRoute = require('./routes/MedicRoutes');
 const medicalRegisterRoute = require('./routes/MedicalRegisterRoutes');
+const appointmentsRoute = require('./routes/AppointmentRoutes');
 require('dotenv').config(); //Iniciar configuração do .env
 
 const server = new Express(); //Objeto do server
@@ -35,6 +36,7 @@ server.use((req, res, next) => {
 server.use('/api/v1/athletes', athleteRoute);
 server.use('/api/v1/auth', authRoute);
 server.use('/api/v1/medics', medicRoute);
-server.use('/api/v1/medicalRegisters', medicalRegisterRoute)
+server.use('/api/v1/medicalRegisters', medicalRegisterRoute);
+server.use('/api/v1/appointments', appointmentsRoute)
 
 module.exports = server;
