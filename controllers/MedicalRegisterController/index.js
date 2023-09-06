@@ -79,12 +79,18 @@ const updateMedicalRegister = async (req, res) => {
         const lastRegister = await MedicalRegister.find({ medic: medicId, athlete: athleteId });
         const { _id } = lastRegister[0];
 
+        if (!lastRegister) { // Verifica se o registro existe 
+            return res.status(404).json({ message: 'Lesão não encontrada' });
+        }
+
         const updatedRegister = await MedicalRegister.findByIdAndUpdate(_id, bodyData, { new: true, runValidators: true });
+        
         return res.status(200).json({
             status: 'Success',
             reqTime: req.requestTime,
             updatedRegister
         });
+
     } catch (err) {
         return res.status(400).json({
             status: 'Error',

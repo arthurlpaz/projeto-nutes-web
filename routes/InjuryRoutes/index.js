@@ -2,23 +2,20 @@ const express = require('express');
 const injuryRouter = express.Router();
 
 const {createInjury,
+    getInjuries,
     getInjuryById,
     updateInjury,
     deleteInjury,
-    listInjuriesByAthlete
 } = require('../../controllers/InjuryController/index');
 
 injuryRouter.route('/')
-    .post(createInjury); // Criar nova lesão
+    .post(createInjury) // Criar nova lesão
+    .get(getInjuries);  // Pega todas as lesões
 
-injuryRouter.route('/:id')
+injuryRouter.route('/:medicId/:athleteId')
     .get(getInjuryById) // Pega lesão por ID
     .patch(updateInjury) // Atualiza por ID
     .delete(deleteInjury); // Deleta por ID
-
-
-injuryRouter.route('/athlete/:athleteId')
-    .get(listInjuriesByAthlete); // Pega lesão de um atleta por ID
 
 module.exports = injuryRouter;
     

@@ -1,4 +1,6 @@
 const Injury = require('../../models/Injury');
+const Medic = require('../../models/Medic');
+const Athlete = require('../../models/Athlete');
 
 const createInjury = async (req, res) => {
     const { // Extrai os dados do coprpo da requisição
@@ -12,6 +14,13 @@ const createInjury = async (req, res) => {
         progressUpdates
     } = req.body;
 
+    const [medicId, athleteId] = [medic, athlete];
+    const medicVerify = await Medic.findById(medicId);
+    const athleteVerify = await Athlete.findById(athleteId);
+
+    if (!medicVerify) return res.status(401).json({ message: "Esse médico não está registrado!" });
+    if (!athleteVerify) return res.status(401).json({ message: "Esse atleta não está registrado!" });
+
     try {
         const newInjury = await Injury.create({ // Cria um nova instância com os dados fornecidos
             date,
@@ -24,25 +33,46 @@ const createInjury = async (req, res) => {
             progressUpdates
         });
 
+        newInjury.save();
+
         return res.status(201).json({
             status: 'Success',
+            reqTime: req.requestTime,
             message: 'Lesão registrada com sucesso',
-            data: newInjury
         });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({
+        return res.status(404).json({
             status: 'Error',
-            message: 'Ocorreu um erro no servidor ao registrar a lesão'
+            message: error.message
         });
     }
 };
 
-const getInjuryById = async (req, res) => { // Obtem os detalhes da lesão por ID
-    const { injuryId } = req.params; // Pega o ID da lesão
+const getInjuries = async (req, res) => {
+    try {
+        const injuries = await Injury.find(req.query);
+        return res.status(200).json({
+            status: 'Success',
+            req_time: req.requestTime,
+            results: injuries.length,
+            injuries
+        });
+    } catch (err) {
+        return res.status(404).json({
+            status: 'Error',
+            reqTime: req.requestTime,
+            message: err.message
+        });
+    }
+}
+
+const getInjuryById = async (req, res) => { // Obtem os detalhes da lesão por ID de médico e atleta
+    const medicId = req.params.medicId;
+    const athleteId = req.params.athleteId;
 
     try { // Busca a lesão por ID
-        const injury = await Injury.findById(injuryId);
+        const injury = await MedicalRegister.find({ medic: medicId, athlete: athleteId });
 
         if (!injury) { // Verifica se ela existe
             return res.status(404).json({ message: 'Lesão não encontrada' });
@@ -50,89 +80,81 @@ const getInjuryById = async (req, res) => { // Obtem os detalhes da lesão por I
 
         return res.status(200).json({ // Responde com os detalhes da lesão
             status: 'Success',
-            data: injury
+            reqTime: req.requestTime,
+            injury
         });
     } catch (error) {
         console.error(error);
         return res.status(500).json({
             status: 'Error',
-            message: 'Ocorreu um erro no servidor ao buscar a lesão'
+            message: error.message
         });
     }
 };
 
 const updateInjury = async (req, res) => { // Atualiza a lesão por ID
-    const { injuryId } = req.params; // Pega o ID da lesão
-    const updateData = req.body;
+    const bodyData = req.body;
+    const medicId = req.params.medicId;
+    const athleteId = req.params.athleteId;
 
     try { // Busca e atualiza lesão por ID
-        const updatedInjury = await Injury.findByIdAndUpdate(injuryId, updateData, { new: true });
+        const lastInjury = await Injury.find({ medic: medicId, athlete: athleteId });
+        const { _id } = lastInjury[0];
 
-        if (!updatedInjury) { // Verifica se a lesão existe 
+        if (!lastInjury) { // Verifica se a lesão existe 
             return res.status(404).json({ message: 'Lesão não encontrada' });
         }
 
+        const updatedInjury = await Injury.findByIdAndUpdate(_id, bodyData, { new: true, runValidators: true });
+
         return res.status(200).json({ // Responde com os detalhes da lesão atualizada
             status: 'Success',
+            reqTime: req.requestTime,
             message: 'Lesão atualizada com sucesso',
             data: updatedInjury
         });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({
+        return res.status(400).json({
             status: 'Error',
-            message: 'Ocorreu um erro no servidor ao atualizar a lesão'
+            message: error.message
         });
     }
 };
 
 const deleteInjury = async (req, res) => { // Excluir lesão por ID
-    const { injuryId } = req.params; // Pega o ID da lesão
+    const medicId = req.params.medicId;
+    const athleteId = req.params.athleteId;
 
     try { // Busca e exclui a lesão
-        const deletedInjury = await Injury.findByIdAndDelete(injuryId);
+        const lastInjury = await Injury.find({ medic: medicId, athlete: athleteId });
+        const { _id } = lastInjury[0];
 
-        if (!deletedInjury) { // verifica se a lesão existe
+        if (!lastInjury) { // verifica se a lesão existe
             return res.status(404).json({ message: 'Lesão não encontrada' });
         }
 
+        const deletedInjury = await Injury.findByIdAndDelete(_id);
+
         return res.status(200).json({ // Responde com sucesso após excluir a lesão
             status: 'Success',
-            message: 'Lesão excluída com sucesso'
+            reqTime: req.requestTime,
+            deletedInjury
         });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({
+        return res.status(400).json({
             status: 'Error',
-            message: 'Ocorreu um erro no servidor ao excluir a lesão'
-        });
-    }
-};
-
-const listInjuriesByAthlete = async (req, res) => { // Lista todas a lesões de um atleta por ID
-    const { athleteId } = req.params; // Pega o ID do atleta
-
-    try { // Busca as lesões do atleta
-        const athleteInjuries = await Injury.find({ athlete: athleteId });
-
-        return res.status(200).json({ // Responde com as lesões do atleta
-            status: 'Success',
-            data: athleteInjuries
-        });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({
-            status: 'Error',
-            message: 'Ocorreu um erro no servidor ao listar as lesões do atleta'
+            message: error.message
         });
     }
 };
 
 module.exports = {
     createInjury,
+    getInjuries,
     getInjuryById,
     updateInjury,
     deleteInjury,
-    listInjuriesByAthlete 
 };
 
