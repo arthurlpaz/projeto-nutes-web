@@ -1,7 +1,17 @@
 const MedicalRegister = require('../../models/MedicalRegister');
+const Medic = require('../../models/Medic');
+const Athlete = require('../../models/Athlete');
 
 const createMedicalRegister = async (req, res) => {
     const bodyData = req.body; //Pega o body da requisição
+    const { medic, athlete } = bodyData;
+    const [medicId, athleteId] = [medic, athlete];
+
+    const medicVerify = await Medic.findById(medicId);
+    const athleteVerify = await Athlete.findById(athleteId);
+
+    if(!medicVerify) return res.status(401).json({ message: "Esse médico não está registrado!"});
+    if(!athleteVerify) return res.status(401).json({ message: "Esse atleta não está registrado!"});
 
     try {
         const newRegister = await MedicalRegister.create(bodyData);
@@ -41,9 +51,11 @@ const getMedicalRegisters = async (req, res) => {
 }
 
 const getMedicalRegisterById = async (req, res) => {
-    const registerId = req.params.id
+    const medicId = req.params.medicId;
+    const athleteId = req.params.athleteId;
+    
     try {
-        const register = await MedicalRegister.findById(registerId);
+        const register = await MedicalRegister.find({ medic: medicId, athlete: athleteId });
         return res.status(200).json({
             status: 'Success',
             reqTime: req.requestTime,
@@ -60,10 +72,14 @@ const getMedicalRegisterById = async (req, res) => {
 
 const updateMedicalRegister = async (req, res) => {
     const bodyData = req.body;
-    const registerId = req.params.id;
+    const medicId = req.params.medicId;
+    const athleteId = req.params.athleteId;
 
     try {
-        const updatedRegister = await MedicalRegister.findByIdAndUpdate(registerId, bodyData, { new: true, runValidators: true });
+        const lastRegister = await MedicalRegister.find({ medic: medicId, athlete: athleteId });
+        const { _id } = lastRegister[0];
+
+        const updatedRegister = await MedicalRegister.findByIdAndUpdate(_id, bodyData, { new: true, runValidators: true });
         return res.status(200).json({
             status: 'Success',
             reqTime: req.requestTime,
@@ -79,10 +95,13 @@ const updateMedicalRegister = async (req, res) => {
 }
 
 const deleteMedicalRegister = async (req, res) => {
-    const registerId = req.params.id;
+    const medicId = req.params.medicId;
+    const athleteId = req.params.athleteId;
 
     try {
-        const deletedRegister = await MedicalRegister.findByIdAndDelete(registerId);
+        const lastRegister = await MedicalRegister.find({ medic: medicId, athlete: athleteId });
+        const { _id } = lastRegister[0];
+        const deletedRegister = await MedicalRegister.findByIdAndDelete(_id);
         return res.status(200).json({
             status: 'Success',
             reqTime: req.requestTime,

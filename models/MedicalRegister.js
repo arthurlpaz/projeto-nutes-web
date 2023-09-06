@@ -19,15 +19,33 @@ const Schema = new mongoose.Schema({
         type: String,
         required: [true, "Exames não definidos"]
     }],
+    notes: [{
+        type: String,
+        default: [""]
+    }],
+    prescriptions: [{   //lista com prescrições médicas
+        name: {
+            type: String,
+            default: ""
+        },
+        date: {
+            type: Date,
+            default: ""
+        },
+        quantity: {
+            type: String,
+            default: ""
+        },
+        time: {
+            type: String,
+            default: ""
+        },
+    }],
     prevInjuries: [{    // lista com detalhes sobre as lesões
         type: String,
         default: [""]
     }],
     prevTreatments: [{  // lista com detalhes sobre tratamentos anteriores
-        type: String,
-        default: [""]
-    }],
-    prescriptions: [{   //lista com prescrições médicas
         type: String,
         default: [""]
     }]
