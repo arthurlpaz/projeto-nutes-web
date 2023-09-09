@@ -23,7 +23,7 @@ if (process.env.NODE_ENV === 'development') {
 server.use(
     cors({
         credentials: true,
-        origin: 'http://localhost:5173',
+        origin: 'http://localhost:3000',
     }),
 );
 
