@@ -38,7 +38,7 @@ const createInjury = async (req, res) => {
         return res.status(201).json({
             status: 'Success',
             reqTime: req.requestTime,
-            message: 'Lesão registrada com sucesso',
+            message: require('dotenv').config(); //Iniciar configuração do .env,
         });
     } catch (error) {
         console.error(error);
