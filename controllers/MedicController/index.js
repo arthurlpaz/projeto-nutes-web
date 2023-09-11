@@ -1,10 +1,10 @@
-const Medic = require('../../models/Medic'); //Import model do atleta
+const Medic = require('../../models/Medic'); //Import model
 
 const createMedic = async (req, res) => {
     const bodyData = req.body; //Pega o body da requisição
 
     try {
-        const newMedic = await Medic.create(bodyData); //Cria atleta usando o model
+        const newMedic = await Medic.create(bodyData); //Cria usando o model
 
         newMedic.save();
 
