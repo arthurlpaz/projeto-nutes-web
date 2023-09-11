@@ -1,3 +1,4 @@
+require('dotenv').config(); //Iniciar configuração do .env
 const Express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -6,7 +7,8 @@ const authRoute = require('./routes/AuthRoutes');
 const medicRoute = require('./routes/MedicRoutes');
 const medicalRegisterRoute = require('./routes/MedicalRegisterRoutes');
 const appointmentsRoute = require('./routes/AppointmentRoutes');
-require('dotenv').config(); //Iniciar configuração do .env
+const injuryRoute = require('./routes/InjuryRoutes');
+
 
 const server = new Express(); //Objeto do server
 
@@ -37,6 +39,7 @@ server.use('/api/v1/athletes', athleteRoute);
 server.use('/api/v1/auth', authRoute);
 server.use('/api/v1/medics', medicRoute);
 server.use('/api/v1/medicalRegisters', medicalRegisterRoute);
-server.use('/api/v1/appointments', appointmentsRoute)
+server.use('/api/v1/appointments', appointmentsRoute);
+server.use('/api/v1/injuryRegisters', injuryRoute);
 
 module.exports = server;

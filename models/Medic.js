@@ -2,23 +2,23 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const Schema = new mongoose.Schema({
-    name: {
+    name: { //Nome
         type: String,
-        required: [true, "Nome do médico não definido!"]
+        required: [true, "Nome do médico não definido!"]    //Necessário para criação inicial
     },
-    password: {
+    password: { //Senha
         type: String,
-        required: [true, "Senha não definida!"]
+        required: [true, "Senha não definida!"] //Necessário para criação inicial
     },
-    date_birthday: {
+    date_birthday: {    //Data nascimento
         type: Date,
         default: ""
     },
-    email: {
+    email: {    //Email
         type: String,
-        required: [true, "E-mail do médico não definido!"]
+        required: [true, "E-mail do médico não definido!"]  //Necessário para criação inicial
     },
-    address: {
+    address: {  //Endereço objeto com rua, número, cidade
         street: {
             type: String,
             default: ""
@@ -32,24 +32,25 @@ const Schema = new mongoose.Schema({
             default: ""
         }
     },
-    contact_emergency: {
+    contact_emergency: {    //Contato de emergência
         type: String,
         default: ""
     },
-    contact_personal: {
+    contact_personal: { //Contato pessoal
         type: String,
         default: ""
     },
-    speciality: {
+    speciality: {   //Especialidade
         type: String,
         default: "Sem especialidade"
     },
-    avaliable: {
+    avaliable: {    //Disponível (true ou false)
         type: Boolean,
         default: true
     }
-}, { timestamps: true });
+}, { timestamps: true });   //Adiciona 2 atributos (data que foi criado e data que foi atualizado)
 
+//Função necessária para verificação de senha no login
 Schema.methods.correctPassword = async function (
     candidatePassword,
     userPassword

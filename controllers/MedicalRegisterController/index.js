@@ -10,8 +10,8 @@ const createMedicalRegister = async (req, res) => {
     const medicVerify = await Medic.findById(medicId);
     const athleteVerify = await Athlete.findById(athleteId);
 
-    if(!medicVerify) return res.status(401).json({ message: "Esse médico não está registrado!"});
-    if(!athleteVerify) return res.status(401).json({ message: "Esse atleta não está registrado!"});
+    if(!medicVerify) return res.status(404).json({ message: "Esse médico não está registrado!"});
+    if(!athleteVerify) return res.status(404).json({ message: "Esse atleta não está registrado!"});
 
     try {
         const newRegister = await MedicalRegister.create(bodyData);
@@ -80,7 +80,7 @@ const updateMedicalRegister = async (req, res) => {
         const { _id } = lastRegister[0];
 
         if (!lastRegister) { // Verifica se o registro existe 
-            return res.status(404).json({ message: 'Lesão não encontrada' });
+            return res.status(404).json({ message: 'Registro não encontrado' });
         }
 
         const updatedRegister = await MedicalRegister.findByIdAndUpdate(_id, bodyData, { new: true, runValidators: true });

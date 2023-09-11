@@ -1,17 +1,22 @@
-const express = require('express');
-const router = express.Router();
-const appointmentController = require('../../controllers/AppointmentController');
+const Express = require('express');
 
-// Rota para criar um novo agendamento
-router.post('/', appointmentController.createAppointment);
+const appointmentRoute = Express.Router();
 
-// Rota para obter um agendamento por ID
-router.get('/:id', appointmentController.getAppointmentById);
+//-------------Funções para Atleta------------------
+const { createAppointment,
+    getAppointmentById,
+    updateAppointment,
+    deleteAppointment,
+    getAppointments } = require('../../controllers/AppointmentController/index');
 
-// Rota para atualizar um agendamento
-router.put('/:id', appointmentController.updateAppointment);
+//-----------------Rotas Atleta-----------------
+appointmentRoute.route('/')
+    .get(getAppointments) //Pegar todos
+    .post(createAppointment);  //Adicionar um
 
-// Rota para excluir um agendamento
-router.delete('/:id', appointmentController.deleteAppointment);
+appointmentRoute.route('/:medicId/:athleteId')
+    .get(getAppointmentById) //Pegar por id
+    .patch(updateAppointment) //Atualizar por id
+    .delete(deleteAppointment); //Apagar por id
 
-module.exports = router;
+module.exports = appointmentRoute;

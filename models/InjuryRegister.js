@@ -1,26 +1,25 @@
 const mongoose = require('mongoose');
 
 const Schema = new mongoose.Schema({
-    date: { 
+    date: { //Data da lesão
         type: Date,
-        required: [true,"Data do registro não definida"]
+        required: [true,"Data do registro não definida"]    //Necessário para criação inicial
     },
-    medic: {
+    medic: {    //Médico responsável
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Medic',
-        required : [true, "Médico no registro não definido"]
-
+        required : [true, "Médico no registro não definido"]    //Necessário para criação inicial
     },
-    athlete : {
+    athlete : { //Atleta responsável
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Athlete',
-        ref: [true, "Atleta do registro não definido"]
+        required: [true, "Atleta do registro não definido"] //Necessário para criação inicial
     },
-    diagnosis: {  // Armazena o diagnóstico da lesão
-        type:String,
-        required: [true,"Diagnóstico não definido"]
+    diagnosis: {  //Diagnóstico da lesão
+        type: String,
+        required: [true, "Diagnóstico não definido"]    //Necessário para criação inicial
     },
-    prescribedTreatments: [{ // Matriz que contém os tratamentos prescritos
+    prescribedTreatments: [{ // Array de strings que contém os tratamentos prescritos
         type: String,
         default: ""
     }],
@@ -28,11 +27,11 @@ const Schema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    rehabRecommendations: [{ // Matriz que contém recomendações de recuperação
+    rehabRecommendations: [{ // Array de strings que contém recomendações de recuperação
         type: String,
         default: [""]
     }],
-    progressUpdates : [{ // Matriz que armazena atualizações de progresso com data e descrição
+    progressUpdates : [{ // Array de objetos que armazena atualizações de progresso da lesão com data e descrição
         date: {
             type: Date,
             default: ""
@@ -42,7 +41,6 @@ const Schema = new mongoose.Schema({
             default: ""
         }
     }]
-
-});
+}, { timestamps: true });   //Adiciona 2 atributos (data que foi criado e data que foi atualizado)
 
 module.exports = mongoose.model('Injury', Schema);
