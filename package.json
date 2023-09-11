@@ -4,7 +4,9 @@
   "description": "Sistema gerenciamento de saúde para atletas.",
   "main": "app.js",
   "scripts": {
-    "test": "jest",
+    "test": "node node_modules/jest/bin/jest.js",
+    "test:watch": "node node_modules/jest/bin/jest.js --watchAll",
+    "test:coverage": "node node_modules/jest/bin/jest.js --coverage",
     "dev": "nodemon server.js"
   },
   "repository": {
