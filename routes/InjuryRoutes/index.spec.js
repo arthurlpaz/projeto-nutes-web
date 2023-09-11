@@ -1,7 +1,7 @@
 const request = require('supertest');
 const app = require('../../server');
 
-describe('Teste das rotas de registros médicos', () => {
+describe('Teste das rotas de registros lesão', () => {
     it('Deve retornar a criação de um registro de lesão', async () => {
         //Criar médico e atleta para ser possível a criação de um registro de lesão
         await request(app).post('/api/v1/athletes').send({
@@ -74,7 +74,6 @@ describe('Teste das rotas de registros médicos', () => {
         });
 
         const res = await request(app).get(`/api/v1/injuryRegisters/${idMedic}/${idAthlet}`);
-
         // Verifica o código de status da resposta
         expect(res.statusCode).toEqual(200);
         // Verifica o corpo da resposta
@@ -151,7 +150,7 @@ describe('Teste das rotas de registros médicos', () => {
             diagnosis: "Rompimento no ligamento do joelho"
         });
 
-        const res = await request(app).delete(`/api/v1/medicalRegisters/${idMedic}/${idAthlet}`);
+        const res = await request(app).delete(`/api/v1/injuryRegisters/${idMedic}/${idAthlet}`);
 
         // Verifica o código de status da resposta
         expect(res.statusCode).toEqual(200);

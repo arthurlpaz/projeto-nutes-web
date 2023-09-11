@@ -1,6 +1,7 @@
-const Injury = require('../../models/Injury');
+const Injury = require('../../models/InjuryRegister');
 const Medic = require('../../models/Medic');
 const Athlete = require('../../models/Athlete');
+const InjuryRegister = require('../../models/InjuryRegister');
 
 const createInjury = async (req, res) => {
     const { // Extrai os dados do coprpo da requisição
@@ -38,7 +39,7 @@ const createInjury = async (req, res) => {
         return res.status(201).json({
             status: 'Success',
             reqTime: req.requestTime,
-            message: require('dotenv').config(); //Iniciar configuração do .env,
+            message: "Injury Register created!"
         });
     } catch (error) {
         console.error(error);
@@ -72,7 +73,7 @@ const getInjuryById = async (req, res) => { // Obtem os detalhes da lesão por I
     const athleteId = req.params.athleteId;
 
     try { // Busca a lesão por ID
-        const injury = await MedicalRegister.find({ medic: medicId, athlete: athleteId });
+        const injury = await InjuryRegister.find({ medic: medicId, athlete: athleteId });
 
         if (!injury) { // Verifica se ela existe
             return res.status(404).json({ message: 'Lesão não encontrada' });
