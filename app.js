@@ -2,6 +2,9 @@ require('dotenv').config(); //Iniciar configuração do .env
 const Express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocs = require('./swageer.json');
+
 const athleteRoute = require('./routes/AthleteRoutes');
 const authRoute = require('./routes/AuthRoutes');
 const medicRoute = require('./routes/MedicRoutes');
@@ -15,6 +18,8 @@ const server = new Express(); //Objeto do server
 //---------------Middlewares-------------
 server.use(Express.json()); //Para o server entender json
 
+server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
 server.use(helmet());   //Para medidas de segurança
 
 if (process.env.NODE_ENV === 'development') {
@@ -25,7 +30,7 @@ if (process.env.NODE_ENV === 'development') {
 server.use(
     cors({
         credentials: true,
-        origin: 'http://localhost:3000',
+        origin: '*',
     }),
 );
 

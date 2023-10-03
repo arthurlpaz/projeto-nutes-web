@@ -1,0 +1,1577 @@
+{
+    "openapi": "3.0.0",
+    "servers": [
+        {
+            "description": "API local",
+            "url": "http://localhost:8081/api/v1"
+        }
+    ],
+    "info": {
+        "description": "API Rest for a Medical Management System",
+        "version": "1.0.0",
+        "title": "NUTES Athletic",
+        "contact": {
+            "email": "kaique.ivo@aluno.uepb.edu.br"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "tags": [
+        {
+            "name": "Medics",
+            "description": "Routes for medics"
+        },
+        {
+            "name": "Athletes",
+            "description": "Routes for athletes"
+        }
+    ],
+    "paths": {
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "Medics"
+                ],
+                "summary": "Register medic on the platform",
+                "operationId": "regMedic",
+                "description": "Authentication register for medics",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "name": "kaique",
+                                "email": "kaique4@gmail.com",
+                                "password": "12345",
+                                "confirmPassword": "12345"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Medic created sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Request can not be met, syntactically incorrect or violates the schema. Normally it occurs due to validation issues, such as fields that are expected in the request body and not passed.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Medics"
+                ],
+                "summary": "Authenticates medic on the platform",
+                "operationId": "logMedic",
+                "description": "Authentication login for medics",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "email": "lucas@email.com",
+                                "password": "123456"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Medic authenticated sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "token": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "$ref": "#/components/schemas/Medic"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Authentication failed due to invalid authentication credentials.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Request can not be met, syntactically incorrect or violates the schema. Normally it occurs due to validation issues, such as fields that are expected in the request body and not passed.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/me": {
+            "get": {
+                "tags": [
+                    "Medics"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Get user of medic logged on the platform",
+                "operationId": "getUserMedic",
+                "description": "Authentication get user for medics",
+                "responses": {
+                    "200": {
+                        "description": "Get user sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "token": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "$ref": "#/components/schemas/Medic"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, the token is invalid or expected",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/medics": {
+            "get": {
+                "tags": [
+                    "Medics"
+                ],
+                "summary": "Get all medics registered on the platform",
+                "operationId": "getAllMedics",
+                "description": "Get all datas of medics",
+                "responses": {
+                    "200": {
+                        "description": "Get users sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "results": {
+                                            "type": "integer"
+                                        },
+                                        "medics": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Medic"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error in the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/athletes": {
+            "get": {
+                "tags": [
+                    "Athletes"
+                ],
+                "summary": "Get all athletes registered on the platform",
+                "operationId": "getAllAthletes",
+                "description": "Get all datas of athletes",
+                "responses": {
+                    "200": {
+                        "description": "Get athletes sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "results": {
+                                            "type": "integer"
+                                        },
+                                        "athletes": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Athlete"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error in the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Athletes"
+                ],
+                "summary": "Create a athlete on the platform",
+                "operationId": "postAthlete",
+                "description": "Create athlete",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "name": "Pedro",
+                                "age": "17",
+                                "gender": "Homem",
+                                "height": "1.7",
+                                "weight": "66"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Athlete created sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error in the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/medicalRegisters": {
+            "get": {
+                "tags": [
+                    "MedicalRegisters"
+                ],
+                "summary": "Get all medical registers registered on the platform",
+                "operationId": "getAllMedicalReg",
+                "description": "Get all datas of medical registers",
+                "responses": {
+                    "200": {
+                        "description": "Get medical registers sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "results": {
+                                            "type": "integer"
+                                        },
+                                        "registers": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/MedicalRegister"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error in the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "MedicalRegisters"
+                ],
+                "summary": "Create a medical register on the platform",
+                "operationId": "postMedicalReg",
+                "description": "Create medical register",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "date": "2023-08-20",
+                                "medic": "64f655e69a209a87d145beeb",
+                                "athlete": "64ee5f756cf3b8de8202a620",
+                                "physicalExams": [
+                                    "Cardio",
+                                    "Vascular"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Medical Register created sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error in the server or one of the related items does not exist. (medic or athlete)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/medics/{id}": {
+            "get": {
+                "tags": [
+                    "Medics"
+                ],
+                "summary": "Find one medic by id",
+                "description": "Get medic by id",
+                "operationId": "getMedicById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of medic to find",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get user sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "results": {
+                                            "type": "integer"
+                                        },
+                                        "medic": {
+                                            "type": "object",
+                                            "$ref": "#/components/schemas/Medic"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error in the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Medics"
+                ],
+                "summary": "Update one medic by id",
+                "description": "Update medic by id",
+                "operationId": "updateMedicById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of medic to update",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "name": "kaique1010"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update user sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "updatedMedic": {
+                                            "type": "object",
+                                            "$ref": "#/components/schemas/Medic"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error in the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Medics"
+                ],
+                "summary": "Delete one medic by id",
+                "description": "Delete medic by id",
+                "operationId": "deleteMedicById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of medic to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete medic sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "deletedMedic": {
+                                            "type": "object",
+                                            "$ref": "#/components/schemas/Medic"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error in the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/athletes/{id}": {
+            "get": {
+                "tags": [
+                    "Athletes"
+                ],
+                "summary": "Find one athlete by id",
+                "description": "Get athlete by id",
+                "operationId": "getAthleteById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of athlete to find",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get athlete sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "results": {
+                                            "type": "integer"
+                                        },
+                                        "athlete": {
+                                            "type": "object",
+                                            "$ref": "#/components/schemas/Athlete"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error in the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Athletes"
+                ],
+                "summary": "Update one athlete by id",
+                "description": "Update athlete by id",
+                "operationId": "updateAthleteById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of athlete to update",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "name": "kaique1010"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update athlete sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "updatedAthlete": {
+                                            "type": "object",
+                                            "$ref": "#/components/schemas/Athlete"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error in the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Athletes"
+                ],
+                "summary": "Delete one athlete by id",
+                "description": "Delete athlete by id",
+                "operationId": "deleteAthleteById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of athlete to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete athlete sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "deletedAthlete": {
+                                            "type": "object",
+                                            "$ref": "#/components/schemas/Athlete"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error in the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/medicalRegisters/{medic_id}/{athlete_id}": {
+            "get": {
+                "tags": [
+                    "MedicalRegisters"
+                ],
+                "summary": "Find one medical register by ids",
+                "description": "Get medical register by ids",
+                "operationId": "getMedicalRegById",
+                "parameters": [
+                    {
+                        "name": "medic_id",
+                        "in": "path",
+                        "description": "Id of medic of medical register",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "athlete_id",
+                        "in": "path",
+                        "description": "Id of athlete of medical register",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get medical register sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "results": {
+                                            "type": "integer"
+                                        },
+                                        "register": {
+                                            "type": "object",
+                                            "$ref": "#/components/schemas/MedicalRegister"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error in the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "MedicalRegisters"
+                ],
+                "summary": "Update one medical register by ids",
+                "description": "Update medical register by ids",
+                "operationId": "updateMedicalRegById",
+                "parameters": [
+                    {
+                        "name": "medic_id",
+                        "in": "path",
+                        "description": "Id of medic of medical register",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "athlete_id",
+                        "in": "path",
+                        "description": "Id of athlete of medical register",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "notes": ["anotação1"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update medical register sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "updatedAthlete": {
+                                            "type": "object",
+                                            "$ref": "#/components/schemas/MedicalRegister"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error in the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Lasta register does not exists.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "MedicalRegisters"
+                ],
+                "summary": "Delete one medical register by ids",
+                "description": "Delete medical register by ids",
+                "operationId": "deleteMedicalRegById",
+                "parameters": [
+                    {
+                        "name": "medic_id",
+                        "in": "path",
+                        "description": "Id of medic of medical register",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "athlete_id",
+                        "in": "path",
+                        "description": "Id of athlete of medical register",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete medical register sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "deletedAthlete": {
+                                            "type": "object",
+                                            "$ref": "#/components/schemas/MedicalRegister"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error in the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Medic": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "name",
+                    "password",
+                    "email"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "d290f1ee-6c54-4b01-90e6-d701748f0851"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Medico"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "123456"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "medico@gmailcom"
+                    },
+                    "address": {
+                        "type": "object",
+                        "properties": {
+                            "street": {
+                                "type": "string",
+                                "example": "rua tal"
+                            },
+                            "number": {
+                                "type": "string",
+                                "example": "84"
+                            },
+                            "city": {
+                                "type": "string",
+                                "example": "cidade tal"
+                            }
+                        }
+                    },
+                    "contact_emergency": {
+                        "type": "string",
+                        "example": "987456132"
+                    },
+                    "contact_personal": {
+                        "type": "string",
+                        "example": "123456789"
+                    },
+                    "speciality": {
+                        "type": "string",
+                        "example": "Cirurgião"
+                    },
+                    "avaliable": {
+                        "type": "boolean"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2021-05-05T10:00:30Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2021-05-05T10:00:30Z"
+                    }
+                }
+            },
+            "Athlete": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "name",
+                    "age",
+                    "gender",
+                    "height",
+                    "weight"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "d290f1ee-6c54-4b01-90e6-d701748f0851"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Atleta"
+                    },
+                    "age": {
+                        "type": "integer",
+                        "example": 19
+                    },
+                    "gender": {
+                        "type": "string",
+                        "example": "masculino"
+                    },
+                    "height": {
+                        "type": "number",
+                        "example": 1.67
+                    },
+                    "weight": {
+                        "type": "integer",
+                        "example": 67
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "atleta@gmailcom"
+                    },
+                    "address": {
+                        "type": "object",
+                        "properties": {
+                            "street": {
+                                "type": "string",
+                                "example": "rua tal"
+                            },
+                            "number": {
+                                "type": "string",
+                                "example": "84"
+                            },
+                            "city": {
+                                "type": "string",
+                                "example": "cidade tal"
+                            }
+                        }
+                    },
+                    "contact_emergency": {
+                        "type": "string",
+                        "example": "987456132"
+                    },
+                    "contact_personal": {
+                        "type": "string",
+                        "example": "123456789"
+                    },
+                    "injured": {
+                        "type": "boolean"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2021-05-05T10:00:30Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2021-05-05T10:00:30Z"
+                    }
+                }
+            },
+            "MedicalRegister": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "date",
+                    "medic",
+                    "athlete",
+                    "physicalExams"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "d290f1ee-6c54-4b01-90e6-d701748f0851"
+                    },
+                    "date": {
+                        "type": "string",
+                        "example": "2021-05-05T10:00:30Z"
+                    },
+                    "medic": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/Medic"
+                    },
+                    "athlete": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/Athlete"
+                    },
+                    "physicalExams": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "exame de vista"
+                        }
+                    },
+                    "notes": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "Anotação 1"
+                        }
+                    },
+                    "prescriptions": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "remédio tal"
+                                },
+                                "date": {
+                                    "type": "string",
+                                    "example": "2021-05-05T10:00:30Z"
+                                },
+                                "quantity": {
+                                    "type": "string",
+                                    "example": "2 cápsulas"
+                                },
+                                "time": {
+                                    "type": "string",
+                                    "example": "2 horas"
+                                }
+                            }
+                        }
+                    },
+                    "prevInjuries": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "prevTreatments": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2021-05-05T10:00:30Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2021-05-05T10:00:30Z"
+                    }
+                }
+            },
+            "InjuryRegister": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "date",
+                    "medic",
+                    "athlete",
+                    "diagnosis"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "d290f1ee-6c54-4b01-90e6-d701748f0851"
+                    },
+                    "date": {
+                        "type": "string",
+                        "example": "2021-05-05T10:00:30Z"
+                    },
+                    "medic": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/Medic"
+                    },
+                    "athlete": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/Athlete"
+                    },
+                    "diagnosis": {
+                        "type": "string",
+                        "example": "lesão no joelho"
+                    },
+                    "precribedTreatments": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "Tratamento tal"
+                        }
+                    },
+                    "estimatedRecoveryDate": {
+                        "type": "string",
+                        "example": "2021-05-05T10:00:30Z"
+                    },
+                    "rehabRecomendations": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "Fazer movimentação casual"
+                        }
+                    },
+                    "prescriptions": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "date": {
+                                    "type": "string",
+                                    "example": "2021-05-05T10:00:30Z"
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "example": "descrição"
+                                }
+                            }
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2021-05-05T10:00:30Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2021-05-05T10:00:30Z"
+                    }
+                }
+            },
+            "Appointment": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "date",
+                    "medic",
+                    "athlete",
+                    "type"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "d290f1ee-6c54-4b01-90e6-d701748f0851"
+                    },
+                    "date": {
+                        "type": "string",
+                        "example": "2021-05-05T10:00:30Z"
+                    },
+                    "medic": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/Medic"
+                    },
+                    "athlete": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/Athlete"
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "Consulta"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "descrição"
+                    },
+                    "resolved": {
+                        "type": "boolean"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}
