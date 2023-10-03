@@ -92,6 +92,27 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Error in the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -273,7 +294,7 @@
                             }
                         }
                     },
-                    "404": {
+                    "500": {
                         "description": "Error in the server",
                         "content": {
                             "application/json": {
@@ -333,7 +354,7 @@
                             }
                         }
                     },
-                    "404": {
+                    "500": {
                         "description": "Error in the server",
                         "content": {
                             "application/json": {
@@ -399,7 +420,7 @@
                             }
                         }
                     },
-                    "404": {
+                    "500": {
                         "description": "Error in the server",
                         "content": {
                             "application/json": {
@@ -459,7 +480,7 @@
                             }
                         }
                     },
-                    "404": {
+                    "500": {
                         "description": "Error in the server",
                         "content": {
                             "application/json": {
@@ -495,8 +516,8 @@
                         "application/json": {
                             "example": {
                                 "date": "2023-08-20",
-                                "medic": "64f655e69a209a87d145beeb",
-                                "athlete": "64ee5f756cf3b8de8202a620",
+                                "medic": "6500e12ecd64175b74975279",
+                                "athlete": "6500e65bcd64175b7497528f",
                                 "physicalExams": [
                                     "Cardio",
                                     "Vascular"
@@ -527,8 +548,303 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "Error in the server or one of the related items does not exist. (medic or athlete)",
+                    "401": {
+                        "description": "Medic or athlete does not exists.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error in the server.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/injuryRegisters": {
+            "get": {
+                "tags": [
+                    "InjuryRegisters"
+                ],
+                "summary": "Get all injury registers registered on the platform",
+                "operationId": "getAllInjuryReg",
+                "description": "Get all datas of injury registers",
+                "responses": {
+                    "200": {
+                        "description": "Get injury registers sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "results": {
+                                            "type": "integer"
+                                        },
+                                        "injuries": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/InjuryRegister"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error in the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "InjuryRegisters"
+                ],
+                "summary": "Create a injury register on the platform",
+                "operationId": "postInjuryReg",
+                "description": "Create injury register",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "date": "2023-08-20",
+                                "medic": "6500e12ecd64175b74975279",
+                                "athlete": "6500e65bcd64175b7497528f",
+                                "diagnosis": "Lesão no braço"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Injury Register created sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Medic or athlete does not exists.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error in the server.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/appointments": {
+            "get": {
+                "tags": [
+                    "Appointments"
+                ],
+                "summary": "Get all appointments registered on the platform",
+                "operationId": "getAllAppointements",
+                "description": "Get all datas of appointments",
+                "responses": {
+                    "200": {
+                        "description": "Get appointments sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "results": {
+                                            "type": "integer"
+                                        },
+                                        "injuries": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Appointment"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error in the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Appointments"
+                ],
+                "summary": "Create a appointment on the platform",
+                "operationId": "postAppointment",
+                "description": "Create appointment",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "date": "2023-08-20",
+                                "medic": "6500e12ecd64175b74975279",
+                                "athlete": "6500e65bcd64175b7497528f",
+                                "type": "Exame"                    
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Appointment created sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Medic or athlete does not exists.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error in the server.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -596,7 +912,7 @@
                             }
                         }
                     },
-                    "404": {
+                    "500": {
                         "description": "Error in the server",
                         "content": {
                             "application/json": {
@@ -670,7 +986,7 @@
                             }
                         }
                     },
-                    "400": {
+                    "500": {
                         "description": "Error in the server",
                         "content": {
                             "application/json": {
@@ -734,7 +1050,7 @@
                             }
                         }
                     },
-                    "400": {
+                    "500": {
                         "description": "Error in the server",
                         "content": {
                             "application/json": {
@@ -803,7 +1119,7 @@
                             }
                         }
                     },
-                    "404": {
+                    "500": {
                         "description": "Error in the server",
                         "content": {
                             "application/json": {
@@ -877,7 +1193,7 @@
                             }
                         }
                     },
-                    "400": {
+                    "500": {
                         "description": "Error in the server",
                         "content": {
                             "application/json": {
@@ -941,7 +1257,7 @@
                             }
                         }
                     },
-                    "400": {
+                    "500": {
                         "description": "Error in the server",
                         "content": {
                             "application/json": {
@@ -1019,7 +1335,7 @@
                             }
                         }
                     },
-                    "404": {
+                    "500": {
                         "description": "Error in the server",
                         "content": {
                             "application/json": {
@@ -1093,7 +1409,7 @@
                                         "reqTime": {
                                             "type": "string"
                                         },
-                                        "updatedAthlete": {
+                                        "updatedRegister": {
                                             "type": "object",
                                             "$ref": "#/components/schemas/MedicalRegister"
                                         }
@@ -1101,8 +1417,22 @@
                                 }
                             }
                         }
+                    },"404": {
+                        "description": "Last register does not exists.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     },
-                    "400": {
+                    "500": {
                         "description": "Error in the server",
                         "content": {
                             "application/json": {
@@ -1115,21 +1445,6 @@
                                         "reqTime": {
                                             "type": "string"
                                         },
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Lasta register does not exists.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
                                         "message": {
                                             "type": "string"
                                         }
@@ -1181,7 +1496,7 @@
                                         "reqTime": {
                                             "type": "string"
                                         },
-                                        "deletedAthlete": {
+                                        "deletedRegister": {
                                             "type": "object",
                                             "$ref": "#/components/schemas/MedicalRegister"
                                         }
@@ -1190,7 +1505,505 @@
                             }
                         }
                     },
-                    "400": {
+                    "500": {
+                        "description": "Error in the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/injuryRegisters/{medic_id}/{athlete_id}": {
+            "get": {
+                "tags": [
+                    "InjuryRegisters"
+                ],
+                "summary": "Find one injury register by ids",
+                "description": "Get injury register by ids",
+                "operationId": "getInjuryRegById",
+                "parameters": [
+                    {
+                        "name": "medic_id",
+                        "in": "path",
+                        "description": "Id of medic of injury register",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "athlete_id",
+                        "in": "path",
+                        "description": "Id of athlete of injury register",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get injury register sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "results": {
+                                            "type": "integer"
+                                        },
+                                        "register": {
+                                            "type": "object",
+                                            "$ref": "#/components/schemas/InjuryRegister"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error in the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "InjuryRegisters"
+                ],
+                "summary": "Update one injury register by ids",
+                "description": "Update injury register by ids",
+                "operationId": "updateInjuryRegById",
+                "parameters": [
+                    {
+                        "name": "medic_id",
+                        "in": "path",
+                        "description": "Id of medic of injury register",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "athlete_id",
+                        "in": "path",
+                        "description": "Id of athlete of injury register",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "diagnosis": "Lesão na coxa esquerda"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update injury register sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "updatedInjury": {
+                                            "type": "object",
+                                            "$ref": "#/components/schemas/InjuryRegister"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Last injury register does not exists.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error in the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "InjuryRegisters"
+                ],
+                "summary": "Delete one injury register by ids",
+                "description": "Delete injury register by ids",
+                "operationId": "deleteInjuryRegById",
+                "parameters": [
+                    {
+                        "name": "medic_id",
+                        "in": "path",
+                        "description": "Id of medic of injury register",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "athlete_id",
+                        "in": "path",
+                        "description": "Id of athlete of injury register",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete injury register sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "deletedInjury": {
+                                            "type": "object",
+                                            "$ref": "#/components/schemas/InjuryRegister"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error in the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/appointments/{medic_id}/{athlete_id}": {
+            "get": {
+                "tags": [
+                    "Appointments"
+                ],
+                "summary": "Find one appointment by ids",
+                "description": "Get appointment by ids",
+                "operationId": "getAppointmentById",
+                "parameters": [
+                    {
+                        "name": "medic_id",
+                        "in": "path",
+                        "description": "Id of medic of appointment",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "athlete_id",
+                        "in": "path",
+                        "description": "Id of athlete of appointment",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get appointment sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "results": {
+                                            "type": "integer"
+                                        },
+                                        "appointment": {
+                                            "type": "object",
+                                            "$ref": "#/components/schemas/Appointment"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error in the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Appointments"
+                ],
+                "summary": "Update one appointment by ids",
+                "description": "Update appointment by ids",
+                "operationId": "updateAppointmentById",
+                "parameters": [
+                    {
+                        "name": "medic_id",
+                        "in": "path",
+                        "description": "Id of medic of appointment",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "athlete_id",
+                        "in": "path",
+                        "description": "Id of athlete of appointment",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "description": "Exame de vista"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update appointment sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "updatedAppointment": {
+                                            "type": "object",
+                                            "$ref": "#/components/schemas/Appointment"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Last appointment does not exists.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error in the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Appointments"
+                ],
+                "summary": "Delete one appointment by ids",
+                "description": "Delete appointment by ids",
+                "operationId": "deleteAppointmentById",
+                "parameters": [
+                    {
+                        "name": "medic_id",
+                        "in": "path",
+                        "description": "Id of medic of appointment",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "athlete_id",
+                        "in": "path",
+                        "description": "Id of athlete of appointment",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete appointment sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "reqTime": {
+                                            "type": "string"
+                                        },
+                                        "deletedAppointment": {
+                                            "type": "object",
+                                            "$ref": "#/components/schemas/Appointment"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
                         "description": "Error in the server",
                         "content": {
                             "application/json": {
@@ -1375,20 +2188,22 @@
                 "properties": {
                     "id": {
                         "type": "string",
-                        "format": "uuid",
-                        "example": "d290f1ee-6c54-4b01-90e6-d701748f0851"
+                        "format": "objectId",
+                        "example": "5f9af791c9e39d001c709b4d"
                     },
                     "date": {
                         "type": "string",
                         "example": "2021-05-05T10:00:30Z"
                     },
                     "medic": {
-                        "type": "object",
-                        "$ref": "#/components/schemas/Medic"
+                        "type": "string",
+                        "format": "ObjectId",
+                        "example": "6500e12ecd64175b74975279"
                     },
                     "athlete": {
-                        "type": "object",
-                        "$ref": "#/components/schemas/Athlete"
+                        "type": "string",
+                        "format": "ObjectId",
+                        "example": "6500e65bcd64175b7497528f"
                     },
                     "physicalExams": {
                         "type": "array",
@@ -1462,20 +2277,22 @@
                 "properties": {
                     "id": {
                         "type": "string",
-                        "format": "uuid",
-                        "example": "d290f1ee-6c54-4b01-90e6-d701748f0851"
+                        "format": "objectId",
+                        "example": "5f9af791c9e39d001c709b4d"
                     },
                     "date": {
                         "type": "string",
                         "example": "2021-05-05T10:00:30Z"
                     },
                     "medic": {
-                        "type": "object",
-                        "$ref": "#/components/schemas/Medic"
+                        "type": "string",
+                        "format": "ObjectId",
+                        "example": "6500e12ecd64175b74975279"
                     },
                     "athlete": {
-                        "type": "object",
-                        "$ref": "#/components/schemas/Athlete"
+                        "type": "string",
+                        "format": "ObjectId",
+                        "example": "6500e65bcd64175b7497528f"
                     },
                     "diagnosis": {
                         "type": "string",
@@ -1537,20 +2354,22 @@
                 "properties": {
                     "id": {
                         "type": "string",
-                        "format": "uuid",
-                        "example": "d290f1ee-6c54-4b01-90e6-d701748f0851"
+                        "format": "objectId",
+                        "example": "5f9af791c9e39d001c709b4d"
                     },
                     "date": {
                         "type": "string",
                         "example": "2021-05-05T10:00:30Z"
                     },
                     "medic": {
-                        "type": "object",
-                        "$ref": "#/components/schemas/Medic"
+                        "type": "string",
+                        "format": "ObjectId",
+                        "example": "6500e12ecd64175b74975279"
                     },
                     "athlete": {
-                        "type": "object",
-                        "$ref": "#/components/schemas/Athlete"
+                        "type": "string",
+                        "format": "ObjectId",
+                        "example": "6500e65bcd64175b7497528f"
                     },
                     "type": {
                         "type": "string",

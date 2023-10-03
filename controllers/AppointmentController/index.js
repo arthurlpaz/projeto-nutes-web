@@ -25,7 +25,7 @@ exports.createAppointment = async (req, res) => {
             message: 'Appointment created!'
         });
     } catch (err) {
-        return res.status(404).json({
+        return res.status(500).json({
             status: 'Error',
             reqTime: req.requestTime,
             message: err.message
@@ -44,7 +44,7 @@ exports.getAppointments = async (req, res) => {
             appointments
         });
     } catch (err) {
-        return res.status(404).json({
+        return res.status(500).json({
             status: 'Error',
             reqTime: req.requestTime,
             message: err.message
@@ -65,7 +65,7 @@ exports.getAppointmentById = async (req, res) => {
             appointment
         });
     } catch (err) {
-        return res.status(404).json({
+        return res.status(500).json({
             status: 'Error',
             reqTime: req.requestTime,
             message: err.message
@@ -96,7 +96,7 @@ exports.updateAppointment = async (req, res) => {
         });
 
     } catch (err) {
-        return res.status(400).json({
+        return res.status(500).json({
             status: 'Error',
             reqTime: req.requestTime,
             message: err.message
@@ -119,7 +119,7 @@ exports.deleteAppointment = async (req, res) => {
             deletedAppointment
         });
     } catch (err) {
-        return res.status(400).json({
+        return res.status(500).json({
             status: 'Error',
             reqTime: req.requestTime,
             message: err.message

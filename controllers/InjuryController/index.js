@@ -19,8 +19,8 @@ const createInjury = async (req, res) => {
     const medicVerify = await Medic.findById(medicId);
     const athleteVerify = await Athlete.findById(athleteId);
 
-    if (!medicVerify) return res.status(401).json({ message: "Esse médico não está registrado!" });
-    if (!athleteVerify) return res.status(401).json({ message: "Esse atleta não está registrado!" });
+    if (!medicVerify) return res.status(404).json({ message: "Esse médico não está registrado!" });
+    if (!athleteVerify) return res.status(404).json({ message: "Esse atleta não está registrado!" });
 
     try {
         const newInjury = await Injury.create({ // Cria um nova instância com os dados fornecidos
@@ -43,7 +43,7 @@ const createInjury = async (req, res) => {
         });
     } catch (error) {
         console.error(error);
-        return res.status(404).json({
+        return res.status(500).json({
             status: 'Error',
             message: error.message
         });
@@ -60,7 +60,7 @@ const getInjuries = async (req, res) => {
             injuries
         });
     } catch (err) {
-        return res.status(404).json({
+        return res.status(500).json({
             status: 'Error',
             reqTime: req.requestTime,
             message: err.message
@@ -111,12 +111,11 @@ const updateInjury = async (req, res) => { // Atualiza a lesão por ID
         return res.status(200).json({ // Responde com os detalhes da lesão atualizada
             status: 'Success',
             reqTime: req.requestTime,
-            message: 'Lesão atualizada com sucesso',
-            data: updatedInjury
+            updatedInjury
         });
     } catch (error) {
         console.error(error);
-        return res.status(400).json({
+        return res.status(500).json({
             status: 'Error',
             message: error.message
         });
@@ -144,7 +143,7 @@ const deleteInjury = async (req, res) => { // Excluir lesão por ID
         });
     } catch (error) {
         console.error(error);
-        return res.status(400).json({
+        return res.status(500).json({
             status: 'Error',
             message: error.message
         });

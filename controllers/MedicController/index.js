@@ -14,7 +14,7 @@ const createMedic = async (req, res) => {
             message: 'Medic created!'
         });
     } catch (err) {
-        return res.status(404).json({
+        return res.status(500).json({
             status: 'Error',
             reqTime: req.requestTime,
             message: err.message
@@ -32,7 +32,7 @@ const getMedics = async (req, res) => {
             medics
         });
     } catch (err) {
-        return res.status(404).json({
+        return res.status(500).json({
             status: 'Error',
             reqTime: req.requestTime,
             message: err.message
@@ -50,7 +50,7 @@ const getMedicById = async (req, res) => {
             medic
         });
     } catch (err) {
-        return res.status(404).json({
+        return res.status(500).json({
             status: 'Error',
             reqTime: req.requestTime,
             message: err.message
@@ -70,7 +70,7 @@ const updateMedic = async (req, res) => {
             updatedMedic
         });
     } catch (err) {
-        return res.status(400).json({
+        return res.status(500).json({
             status: 'Error',
             reqTime: req.requestTime,
             message: err.message
@@ -89,7 +89,7 @@ const deleteMedic = async (req, res) => {
             deletedMedic
         });
     } catch (err) {
-        return res.status(400).json({
+        return res.status(500).json({
             status: 'Error',
             reqTime: req.requestTime,
             message: err.message
