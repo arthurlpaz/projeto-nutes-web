@@ -14,7 +14,7 @@ const createAthlete = async (req, res) => {
             message: 'Athlete created!'
         });
     } catch (err) {
-        return res.status(404).json({
+        return res.status(500).json({
             status: 'Error',
             reqTime: req.requestTime,
             message: err.message
@@ -32,7 +32,7 @@ const getAthletes = async (req, res) => {
             athletes
         });
     } catch (err) {
-        return res.status(404).json({
+        return res.status(500).json({
             status: 'Error',
             reqTime: req.requestTime,
             message: err.message
@@ -50,7 +50,7 @@ const getAthleteById = async (req, res) => {
             athlete
         });
     } catch (err) {
-        return res.status(404).json({
+        return res.status(500).json({
             status: 'Error',
             reqTime: req.requestTime,
             message: err.message
@@ -70,7 +70,7 @@ const updateAthlete = async (req, res) => {
             updatedAthlete
         });
     } catch (err) {
-        return res.status(400).json({
+        return res.status(500).json({
             status: 'Error',
             reqTime: req.requestTime,
             message: err.message
@@ -89,7 +89,7 @@ const deleteAthlete = async (req, res) => {
             deletedAthlete
         });
     } catch (err) {
-        return res.status(400).json({
+        return res.status(500).json({
             status: 'Error',
             reqTime: req.requestTime,
             message: err.message

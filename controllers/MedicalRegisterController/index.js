@@ -24,7 +24,7 @@ const createMedicalRegister = async (req, res) => {
             message: 'Medical Register created!'
         });
     } catch (err) {
-        return res.status(404).json({
+        return res.status(500).json({
             status: 'Error',
             reqTime: req.requestTime,
             message: err.message
@@ -42,7 +42,7 @@ const getMedicalRegisters = async (req, res) => {
             registers
         });
     } catch (err) {
-        return res.status(404).json({
+        return res.status(500).json({
             status: 'Error',
             reqTime: req.requestTime,
             message: err.message
@@ -62,7 +62,7 @@ const getMedicalRegisterById = async (req, res) => {
             register
         });
     } catch (err) {
-        return res.status(404).json({
+        return res.status(500).json({
             status: 'Error',
             reqTime: req.requestTime,
             message: err.message
@@ -92,7 +92,7 @@ const updateMedicalRegister = async (req, res) => {
         });
 
     } catch (err) {
-        return res.status(400).json({
+        return res.status(500).json({
             status: 'Error',
             reqTime: req.requestTime,
             message: err.message
@@ -114,7 +114,7 @@ const deleteMedicalRegister = async (req, res) => {
             deletedRegister
         });
     } catch (err) {
-        return res.status(400).json({
+        return res.status(500).json({
             status: 'Error',
             reqTime: req.requestTime,
             message: err.message
