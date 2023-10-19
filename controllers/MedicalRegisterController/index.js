@@ -77,12 +77,11 @@ const updateMedicalRegister = async (req, res) => {
 
     try {
         const lastRegister = await MedicalRegister.find({ medic: medicId, athlete: athleteId });
-        const { _id } = lastRegister[0];
-
-        if (!lastRegister) { // Verifica se o registro existe 
+        
+        if (lastRegister.length === 0) { // Verifica se o registro existe 
             return res.status(404).json({ message: 'Registro não encontrado' });
         }
-
+        const { _id } = lastRegister[0];
         const updatedRegister = await MedicalRegister.findByIdAndUpdate(_id, bodyData, { new: true, runValidators: true });
         
         return res.status(200).json({

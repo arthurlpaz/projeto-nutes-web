@@ -1,5 +1,6 @@
 const request = require('supertest');
 const app = require('../../server');
+//const mongoose = require('mongoose');
 
 describe('Teste das rotas de agendamento', () => {
     it('Deve retornar a criação de um agendamento', async () => {
@@ -156,4 +157,122 @@ describe('Teste das rotas de agendamento', () => {
         // Verifica o corpo da resposta
         expect(res.body.deletedAppointment).not.toBeNull();
     });
+
+    //Adicionados
+    it('Deve retornar um erro ao criar um agendamendo com id do médico inexistente', async () => {
+        //Criar médico e atleta para ser possível a criação de um agendamento
+        await request(app).post('/api/v1/athletes').send({
+            name: "Pedro",
+            age: "17",
+            gender: "Homem",
+            height: "1.7",
+            weight: "66"
+        });
+
+        const created = await request(app).get('/api/v1/athletes');
+        const idAthlet = created.body.athletes[0]._id;
+
+        const res = await request(app).post('/api/v1/appointments').send({
+            date: "2023-08-20",
+            medic: "6500e12ecd64175b74975279",
+            athlete: `${idAthlet}`,
+            type: "Consulta"
+        });
+
+        // Verifica o código de status da resposta
+        expect(res.statusCode).toEqual(404);
+    });
+
+    it('Deve retornar um erro ao criar um agendamendo com id do atleta inexistente', async () => {
+        await request(app).post('/api/v1/auth/register').send({
+            name: "kaiqueivo",
+            email: "kaiqueiv2@gmail.com",
+            password: "12345",
+            confirmPassword: "12345"
+        });
+
+        const created1 = await request(app).get('/api/v1/medics');
+        const idMedic = created1.body.medics[0]._id;
+
+        const res = await request(app).post('/api/v1/appointments').send({
+            date: "2023-08-20",
+            medic: `${idMedic}`,
+            athlete: "6500e12ecd64175b74975279",
+            type: "Consulta"
+        });
+
+        // Verifica o código de status da resposta
+        expect(res.statusCode).toEqual(404);
+    });
+
+    it('Deve retornar um erro ao tentar atualizar com id do médico inexistente', async () => {
+    
+        await request(app).post('/api/v1/athletes').send({
+            name: "Pedro",
+            age: "17",
+            gender: "Homem",
+            height: "1.7",
+            weight: "66"
+        });
+
+        const created = await request(app).get('/api/v1/athletes');
+        const idAthlet = created.body.athletes[0]._id;
+        const created1 = await request(app).get('/api/v1/medics');
+        const idMedic = created1.body.medics[0]._id;
+
+        await request(app).post('/api/v1/appointments').send({
+            date: "2023-08-20",
+            medic: `${idMedic}`,
+            athlete: `${idAthlet}`,
+            type: "Consulta"
+        });
+
+        const update = { description: 
+            "Raio-x às 16h no dia tal"
+        };
+        
+        const res = await request(app).patch(`/api/v1/appointments/6500e12ecd64175b74975279/${idAthlet}`).send(update);
+
+        // Verifica o código de status da resposta
+        expect(res.statusCode).toEqual(404);
+        // Verifica o corpo da resposta
+        expect(res.body.updatedAppointment).toBeUndefined();
+    });
+
+    it('Deve retornar um erro ao tentar atualizar com id do atleta inexistente', async () => {
+        //Criar médico e atleta para ser possível a criação de um agendamento
+        await request(app).post('/api/v1/athletes').send({
+            name: "Pedro",
+            age: "17",
+            gender: "Homem",
+            height: "1.7",
+            weight: "66"
+        });
+
+        const created = await request(app).get('/api/v1/athletes');
+        const idAthlet = created.body.athletes[0]._id;
+        const created1 = await request(app).get('/api/v1/medics');
+        const idMedic = created1.body.medics[0]._id;
+
+        await request(app).post('/api/v1/appointments').send({
+            date: "2023-08-20",
+            medic: `${idMedic}`,
+            athlete: `${idAthlet}`,
+            type: "Consulta"
+        });
+
+        const update = { description: 
+            "Raio-x às 16h no dia tal"
+        };
+        
+        const res = await request(app).patch(`/api/v1/appointments/${idMedic}/6500e12ecd64175b74975279`).send(update);
+
+        // Verifica o código de status da resposta
+        expect(res.statusCode).toEqual(404);
+        // Verifica o corpo da resposta
+        expect(res.body.updatedAppointment).toBeUndefined();
+    });
+    //afterEach(async () => {
+        //await mongoose.connection.db.dropDatabase();
+    //});
 });

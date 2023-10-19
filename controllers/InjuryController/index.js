@@ -100,12 +100,12 @@ const updateInjury = async (req, res) => { // Atualiza a lesão por ID
 
     try { // Busca e atualiza lesão por ID
         const lastInjury = await Injury.find({ medic: medicId, athlete: athleteId });
-        const { _id } = lastInjury[0];
 
-        if (!lastInjury) { // Verifica se a lesão existe 
+        if (lastInjury.length === 0) { // Verifica se a lesão existe 
             return res.status(404).json({ message: 'Lesão não encontrada' });
         }
 
+        const { _id } = lastInjury[0];
         const updatedInjury = await Injury.findByIdAndUpdate(_id, bodyData, { new: true, runValidators: true });
 
         return res.status(200).json({ // Responde com os detalhes da lesão atualizada

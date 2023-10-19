@@ -1,5 +1,6 @@
 const request = require('supertest');
 const app = require('../../server');
+//const mongoose = require('mongoose');
 
 describe('Teste das rotas de registros médicos', () => {
     it('Deve retornar a criação de um registro médico', async () => {
@@ -160,4 +161,77 @@ describe('Teste das rotas de registros médicos', () => {
         // Verifica o corpo da resposta
         expect(res.body.deletedRegister).not.toBeNull();
     });
+
+    //Adicionados
+    it('Deve retornar um erro ao criar registro com médico inexistente', async () => {
+        
+        await request(app).post('/api/v1/athletes').send({
+            name: "Pedro",
+            age: "17",
+            gender: "Homem",
+            height: "1.7",
+            weight: "66"
+        });
+
+        const created = await request(app).get('/api/v1/athletes');
+        const idAthlet = created.body.athletes[0]._id;
+
+        const res = await request(app).post('/api/v1/medicalRegisters').send({
+            date: "2023-08-20",
+            medic: "6500ed82cd64175b749752e4",
+            athlete: `${idAthlet}`,
+            physicalExams: ["Cardio", "Vascular"]
+        });
+
+        // Verifica o código de status da resposta
+        expect(res.statusCode).toEqual(404);
+    });
+
+    it('Deve retornar um erro ao criar registro com atleta inexistente', async () => {
+        const created1 = await request(app).get('/api/v1/medics');
+        const idMedic = created1.body.medics[0]._id;
+
+        const res = await request(app).post('/api/v1/medicalRegisters').send({
+            date: "2023-08-20",
+            medic: `${idMedic}`,
+            athlete: "6500ed82cd64175b749752e4",
+            physicalExams: ["Cardio", "Vascular"]
+        });
+
+        // Verifica o código de status da resposta
+        expect(res.statusCode).toEqual(404);
+    });
+
+    it('Deve retornar um erro ao atualizar um registro médico inexistente', async () => {
+
+        const created = await request(app).get('/api/v1/athletes');
+        const idAthlet = created.body.athletes[0]._id;
+        const created1 = await request(app).get('/api/v1/medics');
+        const idMedic = created1.body.medics[0]._id;
+
+        await request(app).post('/api/v1/medicalRegisters').send({
+            date: "2023-08-20",
+            medic: `${idMedic}`,
+            athlete: `${idAthlet}`,
+            physicalExams: ["Cardio", "Vascular"]
+        });
+
+        
+        const update = { prescriptions: [{
+            name: "remédio1",
+            date: "2023-09-10",
+            quantity: "2",
+            time: "24 horas"
+        }] };
+        
+        const res = await request(app).patch(`/api/v1/medicalRegisters/6500ed82cd64175b749752e4/${idAthlet}`).send(update);
+
+        // Verifica o código de status da resposta
+        expect(res.statusCode).toEqual(404);
+        // Verifica o corpo da resposta
+        expect(res.body.updatedRegister).toBeUndefined();
+    });
+    //afterEach(async () => {
+        //await mongoose.connection.db.dropDatabase();
+    //});
 });

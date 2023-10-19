@@ -1,5 +1,6 @@
 const request = require('supertest');
 const app = require('../../server');
+//const mongoose = require('mongoose');
 
 describe('Teste das rotas de médicos', () => {
     it('Deve retornar todos os médicos', async () => {
@@ -63,4 +64,8 @@ describe('Teste das rotas de médicos', () => {
         // Verifica o corpo da resposta
         expect(res.body.deletedMedic).not.toBeNull();
     });
+
+    //afterEach(async () => {
+        //await mongoose.connection.db.dropDatabase();
+    //});
 });
