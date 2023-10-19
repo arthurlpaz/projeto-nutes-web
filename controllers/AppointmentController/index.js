@@ -81,12 +81,12 @@ exports.updateAppointment = async (req, res) => {
 
     try {
         const lastAppointment = await Appointment.find({ medic: medicId, athlete: athleteId });
-        const { _id } = lastAppointment[0];
 
-        if (!lastAppointment) { // Verifica se o registro existe 
+        if (lastAppointment.length === 0) { // Verifica se o registro existe 
             return res.status(404).json({ message: 'Agendamento não encontrado' });
         }
 
+        const { _id } = lastAppointment[0];
         const updatedAppointment = await Appointment.findByIdAndUpdate(_id, bodyData, { new: true, runValidators: true });
         
         return res.status(200).json({

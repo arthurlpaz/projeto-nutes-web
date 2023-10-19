@@ -1,5 +1,6 @@
 const request = require('supertest');
 const app = require('../../server');
+//const mongoose = require('mongoose');
 
 describe('Testes para as rotas de autenticação', () => {
     it('Deve registrar um médico', async () => {
@@ -10,6 +11,7 @@ describe('Testes para as rotas de autenticação', () => {
             confirmPassword: "12345"
         });
 
+        
         // Verifica o código de status da resposta
         expect(res.statusCode).toEqual(201);
         // Verifica o corpo da resposta
@@ -48,4 +50,55 @@ describe('Testes para as rotas de autenticação', () => {
         // Verifica o corpo da resposta
         expect(res2.body.medic).not.toBeNull();
     });
+
+    //Adicionados
+    it('Deve retornar um erro ao não preencher o e-mail no login', async () => {
+        const res = await request(app).post('/api/v1/auth/login').send({
+            password: "12345",
+        })
+
+        // Verifica o código de status da resposta
+        expect(res.statusCode).toEqual(422);
+        // Verifica o corpo da resposta
+        expect(res.body.token).toBeUndefined();
+    });
+
+    it('Deve retornar um erro ao não preencher a senha no login', async () => {
+        const res = await request(app).post('/api/v1/auth/login').send({
+            email: "kaiqueiv@gmail.com",
+        })
+
+        // Verifica o código de status da resposta
+        expect(res.statusCode).toEqual(422);
+        // Verifica o corpo da resposta
+        expect(res.body.token).toBeUndefined();
+    });
+
+    it('Deve retornar um erro ao usar uma senha incorreta no login', async () => {
+        const res = await request(app).post('/api/v1/auth/login').send({
+            email: "kaiqueiv@gmail.com",
+            password: "ahhdrghhhhhhhh",
+        })
+
+        // Verifica o código de status da resposta
+        expect(res.statusCode).toEqual(401);
+        // Verifica o corpo da resposta
+        expect(res.body.token).toBeUndefined();
+    });
+
+    it('Deve retornar um erro ao usar um e-mail incorreto no login', async () => {
+        const res = await request(app).post('/api/v1/auth/login').send({
+            email: "renan@icloud.com",
+            password: "12345",
+        })
+
+        // Verifica o código de status da resposta
+        expect(res.statusCode).toEqual(401);
+        // Verifica o corpo da resposta
+        expect(res.body.token).toBeUndefined();
+    });
+
+    //afterEach(async () => {
+        //await mongoose.connection.db.dropDatabase();
+    //});
 })
